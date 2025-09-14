@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+/* Base reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,33 +10,40 @@
 }
 
 body {
-  margin: 0px !important;
+  margin: 0 !important;
   padding: 0;
   font-family: "Montserrat", sans-serif;
 }
 
-/* width */
+/* ==== FIX: keep whole page dark to avoid white flash under navbar ==== */
+html, body, #root {
+  background-color: #090917; /* matches darkTheme.bg */
+  min-height: 100%;
+}
+
+/* Prevent rubber-band overscroll from revealing white bg on some browsers */
+html, body {
+  overscroll-behavior-y: none;
+}
+
+/* Keep sections from sliding under the sticky navbar when jumping to #hash */
+:root { scroll-padding-top: 88px; }
+#About, #Skills, #Projects, #Publication, #Education, #Contact {
+  scroll-margin-top: 88px;
+}
+
+/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 4px;
   height: 80px;
 }
-
-/* Track */
 ::-webkit-scrollbar-track {
   background: #222a35;
 }
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #575c66;
   border-radius: 6px;
 }
-
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #626970;
-}
-
-::-webkit-backdrop-filter {
-  blur: 3px saturate(106%);
 }

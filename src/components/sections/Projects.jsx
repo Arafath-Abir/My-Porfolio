@@ -2,108 +2,98 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { projects } from "../../data/constants";
 import ProjectCard from "../cards/ProjectCard";
+import { motion } from "framer-motion";
 
-const Container = styled.div`
+const Container = styled.section`
   display: flex;
   flex-direction: column;
-  justify-contnet: center;
+  justify-content: center;
   margin-top: 50px;
-  padding: 0px 16px;
-  position: rlative;
+  padding: 0 16px 10px;
+  position: relative;
   z-index: 1;
   align-items: center;
+
+  /* subtle radial glow behind grid */
+  &::before{
+    content:"";
+    position:absolute; inset: 0;
+    background:
+      radial-gradient(600px 300px at 50% 0%,
+        rgba(133,76,230,0.10), transparent 60%),
+      radial-gradient(500px 260px at 90% 20%,
+        rgba(96,165,250,0.08), transparent 70%),
+      radial-gradient(460px 240px at 10% 25%,
+        rgba(52,211,153,0.07), transparent 70%);
+    pointer-events:none;
+    z-index: -1;
+  }
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   position: relative;
-  grid-gap: 12px;
   align-items: center;
   flex-direction: column;
   width: 100%;
   max-width: 1100px;
   gap: 12px;
-  @media (max-width: 960px) {
-    flex-direction: column;
-  }
+
+  @media (max-width: 960px) { flex-direction: column; }
 `;
-const Title = styled.div`
+
+const Title = styled(motion.h2)`
   font-size: 52px;
   text-align: center;
   font-weight: 600;
   margin-top: 20px;
   color: ${({ theme }) => theme.text_primary};
-  @media (max-width: 768px) {
-    font-size: 40px;
-  }
+  @media (max-width: 768px) { font-size: 40px; }
 `;
-const Desc = styled.div`
+
+const Desc = styled(motion.p)`
   font-size: 18px;
   text-align: center;
   font-weight: 500;
   color: ${({ theme }) => theme.text_secondary};
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
+  @media (max-width: 768px) { font-size: 16px; }
 `;
-const ToggleButtonGroup = styled.div`
-  display: flex;
-  border: 1.5px solid ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.primary};
-  font-size: 16px;
-  border-radius: 12px;
-  font-weight: 500;
-  margin: 22px 0;
-  @media (max-width: 768px){
-    font-size: 12px;
-  }
-`;
-const ToggleButton = styled.div`
-  padding: 8px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  &:hover {
-    background: ${({ theme }) => theme.primary + 20};
-  }
-  @media (max-width: 768px) {
-    padding: 6px 8px;
-    border-radius: 4px;
-  }
-  ${({ active, theme }) =>
-    active &&
-    `
-  background:  ${theme.primary + 20};
-  `}
-`;
-const Divider = styled.div`
-  width: 1.5px;
-  background: ${({ theme }) => theme.primary};
-`;
-const CardContainer = styled.div`
+
+const CardContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   gap: 28px;
   flex-wrap: wrap;
+  margin-top: 14px;
 `;
 
+const page = {
+  hidden: { opacity: 0 },
+  show:   { opacity: 1, transition: { when: "beforeChildren", staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+const item = {
+  hidden: { opacity: 0, y: 20, filter: "blur(6px)" },
+  show:   { opacity: 1, y: 0,  filter: "blur(0px)", transition: { type: "spring", stiffness: 120, damping: 18 } },
+};
+
 const Projects = () => {
-  const [toggle, setToggle] = useState("all");
+  const [toggle] = useState("all"); // ভবিষ্যতে ক্যাটাগরি লাগলে ব্যবহার করবেন
+  const filtered = toggle === "all" ? projects : projects.filter((p) => p.category === toggle);
+
   return (
     <Container id="Projects">
-      <Wrapper>
-        <Title>Projects</Title>
-        <Desc>Here are some of my Projects, Experiments, and Implementations.</Desc>
+      <Wrapper variants={page} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px 0px" }}>
+        <Title variants={item}>Projects</Title>
+        <Desc variants={item}>Here are some of my Projects, Experiments, and Implementations.</Desc>
 
-        <CardContainer>
-          {toggle === "all" &&
-            projects.map((project) => <ProjectCard project={project} />)}
-          {projects
-            .filter((item) => item.category === toggle)
-            .map((project) => (
-              <ProjectCard project={project} />
-            ))}
+        <CardContainer variants={page}>
+          {filtered.map((project, idx) => (
+            <motion.div key={project.id || project._id || project.title || idx} variants={item}>
+              <ProjectCard project={project} i={idx} />
+            </motion.div>
+          ))}
         </CardContainer>
       </Wrapper>
     </Container>

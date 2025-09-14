@@ -1,53 +1,41 @@
+// src/components/Navbar.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { Link as LinkR } from "react-router-dom";
-import styled, { useTheme, keyframes } from "styled-components";
-import { Bio } from "../data/constants";
+import styled, { keyframes } from "styled-components";
 import { MenuRounded } from "@mui/icons-material";
 
-// Entrance animation
+/* Animations */
 const slideIn = keyframes`
   from { transform: translateY(-100%); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 `;
-
-// Pulse animation for button
-const pulse = keyframes`
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2); }
-  50% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-`;
-
-// Staggered animation for mobile menu items
 const stagger = keyframes`
   from { transform: translateY(-20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 `;
 
+/* Layout */
 const Nav = styled.div`
-  background: ${({ theme, hasScrolled }) =>
-    hasScrolled
-      ? `linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.6))`
-      : theme.bg};
-  backdrop-filter: ${({ hasScrolled }) => (hasScrolled ? "blur(8px)" : "none")};
+  /* 0.4 at top, 0.5 after scroll + blur (glass) */
+  background: ${({ hasScrolled }) =>
+    hasScrolled ? "rgba(9, 9, 23, 0.50)" : "rgba(9, 9, 23, 0.40)"};
+  backdrop-filter: ${({ hasScrolled }) =>
+    hasScrolled ? "saturate(140%) blur(10px)" : "saturate(140%) blur(8px)"};
   -webkit-backdrop-filter: ${({ hasScrolled }) =>
-    hasScrolled ? "blur(8px)" : "none"};
-  box-shadow: ${({ hasScrolled }) =>
-    hasScrolled ? "0 8px 24px rgba(0,0,0,0.3)" : "none"};
+    hasScrolled ? "saturate(140%) blur(10px)" : "saturate(140%) blur(8px)"};
+
+  box-shadow: none;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
   position: sticky;
   top: 0;
   z-index: 10;
   color: white;
   animation: ${slideIn} 0.6s ease-out;
-  transition:
-    background 0.3s ease,
-    backdrop-filter 0.3s ease,
-    -webkit-backdrop-filter 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: background .2s ease, backdrop-filter .2s ease;
+  -webkit-tap-highlight-color: transparent;
 `;
 
 const NavbarContainer = styled.div`
@@ -57,37 +45,36 @@ const NavbarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1rem;
 `;
 
 const NavLogo = styled(LinkR)`
-  width: 80%;
   padding: 0 6px;
   font-weight: 600;
   font-size: 20px;
   text-decoration: none;
   color: ${({ theme }) => theme.text_primary};
   transition: transform 0.3s ease, color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+
   &:hover {
     transform: scale(1.05);
     color: ${({ theme }) => theme.primary};
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 8px rgba(255,255,255,0.5);
   }
+  &:focus, &:focus:not(:focus-visible) { outline: none; box-shadow: none; }
+  &:active { text-shadow: none; transform: scale(1.02); }
 `;
 
 const NavItems = styled.ul`
-  width: 100%;
+  flex: 1;                     /* take remaining width */
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;   /* align RIGHT */
   gap: 12px;
   padding: 0 6px;
   list-style: none;
   position: relative;
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
+  @media (max-width: 768px) { display: none; }
 `;
 
 const GlassHighlight = styled.div`
@@ -96,24 +83,14 @@ const GlassHighlight = styled.div`
   transform: translateY(-50%);
   height: 36px;
   border-radius: 14px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.05)
-  );
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
   backdrop-filter: blur(3px) saturate(150%);
   -webkit-backdrop-filter: blur(3px) saturate(150%);
-  box-shadow:
-    inset 0 0 12px rgba(255, 255, 255, 0.1),
-    0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 12px rgba(255,255,255,0.1), 0 4px 12px rgba(0,0,0,0.2);
   pointer-events: none;
   z-index: 0;
   opacity: 0;
-  transition:
-    left 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
-    width 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 0.2s ease,
-    background 0.3s ease;
+  transition: left .3s cubic-bezier(.22,.61,.36,1), width .3s cubic-bezier(.22,.61,.36,1), opacity .2s ease;
   will-change: left, width, opacity;
 `;
 
@@ -128,77 +105,31 @@ const NavLink = styled.a`
   border-radius: 14px;
   transition: all 0.3s ease;
   transform: scale(1);
+  -webkit-tap-highlight-color: transparent;
+
   &:hover {
     color: ${({ theme }) => theme.primary};
     transform: scale(1.05);
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 8px rgba(255,255,255,0.4);
   }
+  &:active { text-shadow: none; }
+  &:focus, &:focus:not(:focus-visible) { outline: none; box-shadow: none; }
+
   ${({ isActive, theme }) =>
     isActive &&
-    `
-    text-shadow: 0 0 8px ${theme.primary}80;
-    font-weight: 600;
-  `}
-`;
-
-const ButtonContainer = styled.div`
-  width: 80%;
-  height: 100%;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  padding: 0 6px;
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const GithubButton = styled.a`
-  border: 1.5px solid ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.primary};
-  justify-content: center;
-  display: flex;
-  align-items: center;
-  border-radius: 20px;
-  cursor: pointer;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: 500;
-  text-decoration: none;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  animation: ${pulse} 2s infinite ease-in-out;
-  &:hover {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.1)
-    );
-    backdrop-filter: blur(14px) saturate(200%);
-    -webkit-backdrop-filter: blur(14px) saturate(200%);
-    box-shadow:
-      inset 0 0 20px rgba(255, 255, 255, 0.2),
-      0 6px 20px rgba(0, 0, 0, 0.3);
-    color: ${({ theme }) => theme.text_primary};
-    transform: scale(1.05);
-  }
+    `text-shadow: 0 0 8px ${theme.primary}80; font-weight: 600;`}
 `;
 
 const MobileIcon = styled.div`
   height: 100%;
-  display: flex;
+  display: none;
   align-items: center;
   color: ${({ theme }) => theme.text_primary};
-  display: none;
   cursor: pointer;
   transition: transform 0.3s ease;
-  &:hover {
-    transform: scale(1.1);
-  }
-  @media screen and (max-width: 768px) {
-    display: block;
-  }
+  -webkit-tap-highlight-color: transparent;
+  &:hover { transform: scale(1.1); }
+  @media (max-width: 768px) { display: flex; }
 `;
 
 const MobileMenu = styled.ul`
@@ -209,19 +140,23 @@ const MobileMenu = styled.ul`
   gap: 16px;
   list-style: none;
   padding: 12px 40px 24px 40px;
+
+  /* keep glassy feel for mobile dropdown */
   background: ${({ theme }) =>
     `linear-gradient(to bottom, ${theme.card_light}e6, ${theme.card_light}cc)`};
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+
   position: absolute;
   top: 80px;
   right: 0;
   transition: all 0.5s ease-in-out;
   transform: ${({ isOpen }) => (isOpen ? "translateY(0)" : "translateY(-100%)")};
   border-radius: 0 0 20px 20px;
-  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 12px 0 rgba(0,0,0,0.25);
   opacity: ${({ isOpen }) => (isOpen ? "1" : "0")};
   z-index: ${({ isOpen }) => (isOpen ? "1000" : "-1000")};
+
   & > * {
     animation: ${stagger} 0.4s ease-out forwards;
     animation-delay: ${({ isOpen }) => (isOpen ? "calc(0.1s * var(--i))" : "0s")};
@@ -234,21 +169,17 @@ const Navbar = () => {
   const [hl, setHl] = useState(null);
   const [activeSection, setActiveSection] = useState("");
   const itemsRef = useRef(null);
-  const theme = useTheme();
 
   useEffect(() => {
     const onScroll = () => {
-      setHasScrolled(window.scrollY > 0);
-      // Detect active section
-      const sections = ["About", "Skills", "Projects", "Education", "Publication"];
-      let currentSection = "";
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element && window.scrollY >= element.offsetTop - 100) {
-          currentSection = section;
-        }
+      setHasScrolled(window.scrollY > 12);
+      const sections = ["About", "Skills", "Projects", "Publication", "Education", "Contact"];
+      let current = "";
+      for (const s of sections) {
+        const el = document.getElementById(s);
+        if (el && window.scrollY >= el.offsetTop - 100) current = s;
       }
-      setActiveSection(currentSection);
+      setActiveSection(current);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -259,19 +190,39 @@ const Navbar = () => {
     if (!itemsRef.current || !el) return;
     const parentRect = itemsRef.current.getBoundingClientRect();
     const rect = el.getBoundingClientRect();
-    setHl({
-      left: rect.left - parentRect.left,
-      width: rect.width,
-      height: rect.height,
-    });
+    setHl({ left: rect.left - parentRect.left, width: rect.width, height: rect.height });
   };
 
   const clearHighlight = () => setHl(null);
 
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 72;
+      window.scrollTo({ top: y < 0 ? 0 : y, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const MENU_ORDER = ["About", "Skills", "Projects", "Publication", "Education", "Contact"];
+
   return (
     <Nav hasScrolled={hasScrolled}>
       <NavbarContainer>
-        <NavLogo to="/">Arafath Abir</NavLogo>
+        <NavLogo
+          to="/"
+          onClick={(e) => {
+            e.preventDefault();
+            setIsOpen(false);
+            setActiveSection("About");
+            clearHighlight();
+            scrollToSection("About");
+          }}
+          aria-label="Go to top"
+        >
+          Arafath Abir
+        </NavLogo>
 
         <MobileIcon onClick={() => setIsOpen(!isOpen)}>
           <MenuRounded style={{ color: "inherit" }} />
@@ -286,51 +237,46 @@ const Navbar = () => {
               opacity: hl ? 1 : 0,
             }}
           />
-          {["About", "Skills", "Projects", "Education", "Publication"].map((item, index) => (
+          {MENU_ORDER.map((item, index) => (
             <NavLink
               key={item}
               href={`#${item}`}
               onMouseEnter={(e) => moveHighlight(e.currentTarget)}
               isActive={activeSection === item}
+              style={{ "--i": index }}
+              onClick={(e) => {
+                e.preventDefault();
+                clearHighlight();
+                setIsOpen(false);
+                scrollToSection(item);
+              }}
             >
               {item}
             </NavLink>
           ))}
         </NavItems>
-
-        {isOpen && (
-          <MobileMenu isOpen={isOpen}>
-            {["About", "Skills", "Projects", "Education", "Publication"].map((item, index) => (
-              <NavLink
-                key={item}
-                onClick={() => setIsOpen(false)}
-                href={`#${item}`}
-                style={{ "--i": index }}
-                isActive={activeSection === item}
-              >
-                {item}
-              </NavLink>
-            ))}
-            <GithubButton
-              href={Bio.github}
-              target="_blank"
-              style={{
-                background: theme.primary,
-                color: theme.text_primary,
-                "--i": 5,
-              }}
-            >
-              Github Profile
-            </GithubButton>
-          </MobileMenu>
-        )}
-
-        <ButtonContainer>
-          <GithubButton href={Bio.github} target="_blank">
-            Github Profile
-          </GithubButton>
-        </ButtonContainer>
       </NavbarContainer>
+
+      {isOpen && (
+        <MobileMenu isOpen={isOpen}>
+          {MENU_ORDER.map((item, index) => (
+            <NavLink
+              key={item}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsOpen(false);
+                clearHighlight();
+                scrollToSection(item);
+              }}
+              href={`#${item}`}
+              style={{ "--i": index }}
+              isActive={activeSection === item}
+            >
+              {item}
+            </NavLink>
+          ))}
+        </MobileMenu>
+      )}
     </Nav>
   );
 };

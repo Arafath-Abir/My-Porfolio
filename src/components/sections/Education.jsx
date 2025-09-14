@@ -59,8 +59,7 @@ const Education = () => {
             marginBottom: "40px",
           }}
         >
-          My education has been a journey of self-discovery and growth. My
-          educational details are as follows.
+          An overview of my educational background and qualifications.
         </Desc>
 
         <VerticalTimeline>

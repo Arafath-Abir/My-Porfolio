@@ -172,9 +172,8 @@ export const projects = [
     id: 11,
     title: "Melanoma Skin Cancer Detection",
     description:
-      "A Rule Builder application “Decision Hub” that empowers Business Analysts to create, save, and visualize decision strategies. Provide a no-code rule writing experience and visual representation to test these rules in real-time and observe the calculations at each step.",
+      "Implemented a deep learning–based system for the detection of melanoma, trained on a dataset of over 10,000 dermatoscopic images. The project leverages advanced machine learning pipelines and convolutional neural networks (CNNs) to perform accurate skin lesion classification. By combining robust data preprocessing with state-of-the-art modeling techniques, the system demonstrates the potential of AI in supporting early diagnosis and clinical decision-making in dermatology.",
     image: "https://res.cloudinary.com/dt94ywdob/image/upload/v1757795121/melanoma_ooljeg.jpg",
-    tags: ["React Js", "PostgressSQL", "Node Js", "Express Js", "Redux", "React Flow"],
     category: "web app",
     github: "https://github.com/Arafath-Abir/Melanoma-Skin-Cancer-Detection",
     
@@ -183,22 +182,10 @@ export const projects = [
     id: 9,
     title: "Elanzo : A Fashion E-Commerce",
     description:
-      "Trackify is a web application designed to streamline task management and enhance productivity in the workplace. It provides a user-friendly interface for employers to keep track of their employees' daily work activities and empowers employees to log their tasks efficiently. \nAdmin Credentials: # Email: testadmin@gmail.com #Password- 123@testadmin, Employee Credentials:	#Email: testemployee@gmail.com	#Password- 123@Testemployee",
+      "Elanzor is a full-stack web application built with Vite (React), Tailwind CSS, and PostCSS on the frontend, with Express.js on the backend. It integrates Firebase Authentication and Firestore for secure user management and scalable data storage.",
     image:
       "https://res.cloudinary.com/dt94ywdob/image/upload/v1757794425/Screenshot_2025-09-14_at_2.12.22_AM_otqorb.png",
-    tags: [
-      "Docker",
-      "AWS",
-      "DuckDNS",
-      "Eslint",
-      "Husky",
-      "CI/CD",
-      "React Js",
-      "MongoDb",
-      "Node Js",
-      "Express Js",
-      "Redux",
-    ],
+
     category: "web app",
     github: "https://github.com/Arafath-Abir/Elanzo-An-E-Commerce-Platform",
     webapp: "https://elanzo.netlify.app/",
@@ -210,7 +197,7 @@ export const projects = [
       "Developed a complete machine learning workflow covering data preprocessing, feature engineering, and classification modeling. Implemented techniques for handling missing data, normalization, and encoding, followed by training and evaluating classification models in Python. This project demonstrates practical application of data science concepts to build an end-to-end predictive pipeline.",
     image:
       "https://res.cloudinary.com/dt94ywdob/image/upload/v1757795543/ChatGPT_Image_Sep_14_2025_02_32_13_AM_bz8lab.png",
-    tags: ["React Js", "MongoDb", "Node Js", "Express Js", "Redux"],
+
 
     github: "https://github.com/Arafath-Abir/Data-Driven-Classification-System",
     webapp: "",

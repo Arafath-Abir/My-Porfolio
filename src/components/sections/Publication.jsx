@@ -17,8 +17,6 @@ const shimmer = keyframes`
   from { background-position: -150% 0; }
   to   { background-position: 250% 0; }
 `;
-
-/* নতুন mesh/conic glow bg */
 const bgSpin = keyframes`
   from { transform: translate(-15%, -18%) scale(1.4) rotate(0deg); }
   to   { transform: translate(-15%, -18%) scale(1.4) rotate(360deg); }
@@ -51,7 +49,7 @@ const Heading = styled.h2`
   line-height: 1.1;
   text-align: center;
   margin-bottom: 8px;
-  color: ${({ theme }) => theme.text_primary}; /* সাদা */
+  color: ${({ theme }) => theme.text_primary};
 `;
 
 const Sub = styled.p`
@@ -66,7 +64,6 @@ const Timeline = styled.div`
   position: relative;
   padding-left: 34px;
 
-  /* vertical line */
   &::before {
     content: "";
     position: absolute;
@@ -122,7 +119,7 @@ const Node = styled.span`
   }
 `;
 
-/* ===== Card (নতুন animated bg) ===== */
+/* ===== Card ===== */
 const Card = styled.a`
   position: relative;
   display: block;
@@ -143,18 +140,16 @@ const Card = styled.a`
   overflow: hidden;
 
   transform: perspective(1000px) translateZ(0);
-  transition: transform 220ms ease, border-color 180ms ease, box-shadow 220ms ease;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 
   &:hover {
-    transform: perspective(1000px) translateZ(0) translateY(-2px) rotateX(0.6deg);
-    border-color: rgba(255, 255, 255, 0.2);
+    transform: perspective(1000px) translateZ(0) translateY(-3px) rotateX(1deg) rotateY(-1deg) scale(1.02);
+    border-color: rgba(0, 255, 200, 0.4);
     box-shadow:
-      0 10px 26px rgba(0, 0, 0, 0.45),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      0 12px 30px rgba(0, 255, 200, 0.25),
+      inset 0 0 0 1px rgba(133, 76, 230, 0.2);
   }
 
-  /* ===== Animated background layers ===== */
-  /* Layer 1: spinning conic glow (খুব subtle) */
   &::before {
     content: "";
     position: absolute;
@@ -163,8 +158,7 @@ const Card = styled.a`
     top: -40%;
     left: -40%;
     z-index: 0;
-    background:
-      conic-gradient(
+    background: conic-gradient(
         from 0deg at 50% 50%,
         rgba(133,76,230,0.16),
         rgba(0,255,200,0.12),
@@ -179,7 +173,6 @@ const Card = styled.a`
     mix-blend-mode: screen;
   }
 
-  /* Layer 2: drifting mesh blobs */
   &::after {
     content: "";
     position: absolute;
@@ -196,7 +189,6 @@ const Card = styled.a`
     pointer-events: none;
   }
 
-  /* keep content above backgrounds */
   & > * { position: relative; z-index: 1; }
 `;
 
@@ -220,8 +212,7 @@ const Badge = styled.span`
 const DateChip = styled(Badge)`
   color: ${({ theme }) => theme.text_primary};
   border-color: rgba(255, 255, 255, 0.22);
-  background:
-    linear-gradient(90deg, rgba(133,76,230,0.35), rgba(0,255,200,0.35));
+  background: linear-gradient(90deg, rgba(133,76,230,0.35), rgba(0,255,200,0.35));
 `;
 
 const TitleRow = styled.div`
@@ -292,9 +283,9 @@ const Btn = styled.button`
   display: inline-flex; align-items: center; gap: 8px;
 
   &:hover {
-    transform: translateY(-1px);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.28);
+    transform: translateY(-2px) scale(1.05);
+    background: rgba(0, 255, 200, 0.1);
+    border-color: rgba(0, 255, 200, 0.4);
   }
 `;
 
@@ -335,7 +326,7 @@ const Publication = () => {
     <Section id="Publication">
       <Inner>
         <Heading>Publications</Heading>
-        <Sub>Peer-reviewed work shown on a glowing, animated timeline.</Sub>
+        <Sub>A timeline of my research papers and publications.</Sub>
 
         <Timeline>
           {publications.map((p, i) => {
