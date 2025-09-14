@@ -7,7 +7,7 @@ export const Bio = {
     "I am a motivated and adaptable professional, dedicated to embracing new challenges and delivering exceptional results. Guided by a strong passion for continuous learning and a growth-oriented mindset, I strive to make meaningful contributions and drive impactful outcomes.",
   github: "https://github.com/arafath-abir",
   resume:
-    "https://drive.google.com/file/d/19Re4k054ME3lTA3uLN0NoEVJQfD5ACd_/view?usp=sharing",
+    "https://drive.google.com/file/d/10Z4EJy2npl1h55pqA51mY3DwyzLBj0Ex/view?usp=sharing",
   linkedin: "https://www.linkedin.com/in/arafath-abir/",
   email: "arafathabir07@gmail.com",
 };
