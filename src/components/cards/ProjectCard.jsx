@@ -21,7 +21,7 @@ const floatTag = keyframes`
 const Card = styled(motion.div)`
   position: relative;
   width: 330px;
-  height: 560px; /* একটু বড়, যাতে drawer আরামসে বসে */
+  height: 560px;
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
@@ -33,7 +33,6 @@ const Card = styled(motion.div)`
   transition: filter .25s ease, box-shadow .25s ease, transform .25s ease;
   will-change: transform, filter;
 
-  /* animated gradient border */
   &::before{
     content:"";
     position:absolute; inset:0;
@@ -48,7 +47,6 @@ const Card = styled(motion.div)`
     opacity: .7;
   }
 
-  /* pointer-following light */
   &::after{
     content:"";
     position:absolute; inset:-1px; border-radius: inherit;
@@ -87,7 +85,6 @@ const ImageWrap = styled.div`
   box-shadow: 0 0 16px 2px rgba(0,0,0,0.25);
   transform: translateZ(20px);
 
-  /* sweep shine */
   &::before{
     content:"";
     position:absolute; top:0; left:-140%;
@@ -98,7 +95,6 @@ const ImageWrap = styled.div`
   }
   ${Card}:hover &::before{ left:115%; opacity:1; }
 
-  /* image zoom/parallax */
   img{ transform: scale(1) translate(var(--ix,0), var(--iy,0)); transition: transform .45s ease; }
   ${Card}:hover & img{ transform: scale(1.06) translate(var(--ix,0), var(--iy,0)); }
 `;
@@ -184,18 +180,20 @@ const Avatar = styled.img`
   object-fit: cover;
 `;
 
+/* ===== Always visible buttons ===== */
 const Actions = styled.div`
   margin-top: auto;
-  display: flex; gap: 10px;
-  transform: translateY(6px); opacity: 0;
-  transition: transform .25s ease, opacity .25s ease;
-  ${Card}:hover & { transform: translateY(0); opacity: 1; }
+  display: flex;
+  gap: 10px;
+  transform: translateY(0);
+  opacity: 1;
 `;
 
 const Btn = styled.a`
   flex: 1; text-align: center; text-decoration: none;
   font-weight: 800; font-size: 14px; padding: 10px 14px;
-  border-radius: 10px; transition: transform .18s ease, filter .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+  border-radius: 10px;
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
   &:active { transform: translateY(0); }
 `;
 
@@ -213,7 +211,7 @@ const CodeBtn = styled(Btn)`
   &:hover { transform: translateY(-1px); background: rgba(255,255,255,0.06); color: ${({ theme }) => theme.primary}; }
 `;
 
-/* ===== Quick Drawer (extra details) ===== */
+/* ===== Drawer ===== */
 const Drawer = styled(motion.div)`
   position: absolute; left: 0; right: 0; bottom: 0;
   background: linear-gradient(180deg, rgba(9,12,20,0.0) 0%, rgba(9,12,20,0.55) 8%, rgba(9,12,20,0.85) 38%, rgba(9,12,20,0.96) 100%);
@@ -229,7 +227,6 @@ const DrawerBody = styled.div`
   height: 100%;
   overflow-y: auto;
   padding-right: 6px;
-  /* scrollbar thin */
   &::-webkit-scrollbar { width: 4px; }
   &::-webkit-scrollbar-thumb { background: rgba(255,255,255,.18); border-radius: 4px; }
 `;
@@ -265,7 +262,6 @@ const ProjectCard = ({ project, i = 0 }) => {
   const cardRef = useRef(null);
   const [expanded, setExpanded] = useState(false);
 
-  // Accept multiple keys for live link
   const liveUrl =
     project?.live ||
     project?.demo ||
@@ -275,7 +271,6 @@ const ProjectCard = ({ project, i = 0 }) => {
     project?.link ||
     "";
 
-  // Optional extras (array) for drawer
   const extras =
     project?.highlights ||
     project?.features ||
@@ -329,7 +324,7 @@ const ProjectCard = ({ project, i = 0 }) => {
       whileTap={{ scale: 0.995 }}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      onClick={() => setExpanded((s) => !s)} // mobile tap toggle
+      onClick={() => setExpanded((s) => !s)}
     >
       <Card3D>
         <ImageWrap>
@@ -383,7 +378,6 @@ const ProjectCard = ({ project, i = 0 }) => {
         )}
       </Card3D>
 
-      {/* Drawer: extra details */}
       <AnimatePresence>
         {expanded && (
           <Drawer
@@ -394,14 +388,12 @@ const ProjectCard = ({ project, i = 0 }) => {
           >
             <DrawerBody>
               <DrawerTitle>More details</DrawerTitle>
-              {/* লম্বা ডিসক্রিপশন (না থাকলে সংক্ষিপ্তটাই দেখাবে) */}
               {(project.longDescription || project.long_desc || project.more || project.description) && (
                 <LongDesc>
                   {project.longDescription || project.long_desc || project.more || project.description}
                 </LongDesc>
               )}
 
-              {/* Highlights / Features (array) */}
               {Array.isArray(extras) && extras.length > 0 && (
                 <>
                   <DrawerTitle>Highlights</DrawerTitle>
@@ -413,7 +405,6 @@ const ProjectCard = ({ project, i = 0 }) => {
                 </>
               )}
 
-              {/* ট্যাগগুলোও একবার দেখানো হলো */}
               {Array.isArray(project.tags) && project.tags.length > 0 && (
                 <>
                   <DrawerTitle style={{ marginTop: 10 }}>Stack</DrawerTitle>
@@ -426,7 +417,7 @@ const ProjectCard = ({ project, i = 0 }) => {
               )}
             </DrawerBody>
 
-            <ToggleHint>{/* hint */}Tap/Click card to close</ToggleHint>
+            <ToggleHint>Tap/Click card to close</ToggleHint>
           </Drawer>
         )}
       </AnimatePresence>

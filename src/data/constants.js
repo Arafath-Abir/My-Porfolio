@@ -217,18 +217,6 @@ export const projects = [
     //   },
     // ],
   },
-  {
-    id: 1,
-    title: "Portfolio",
-    description:
-      "Built an interactive 3D portfolio website using React and Three.js, showcasing projects and skills through dynamic animations, responsive design, and a modern user experience.",
-    image:
-      "https://res.cloudinary.com/dt94ywdob/image/upload/v1757795024/Screenshot_2025-09-14_at_2.23.28_AM_dlnldp.png",
-    tags: ["React Js", "MongoDb", "Node Js", "Express Js", "Redux", "NodeMailer"],
-    category: "web app",
-    github: "https://github.com/Arafath-Abir/My-Porfolio",
-    webapp: "https://arafathabir.me",
-  },
 ];
 
 /* -------------------- Publications -------------------- */
