@@ -7,11 +7,8 @@ import { Tilt } from "react-tilt";
 import { motion } from "framer-motion";
 import StarCanvas from "../canvas/Stars";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-
 const HERO_IMG =
   "https://res.cloudinary.com/dt94ywdob/image/upload/v1757873583/j_1_sryaoq.png";
-
-/* Color system */
 const COLORS = {
   neon: "rgba(0, 255, 140, 1)",
   mint: "rgba(146, 255, 210, 1)",
@@ -20,7 +17,6 @@ const COLORS = {
   glowHard: "rgba(0, 255, 140, 0.85)",
 };
 
-/* Page-load and scroll orchestration */
 const page = {
   hidden: { opacity: 0 },
   show: {
@@ -72,7 +68,6 @@ const orbitV = (delay = 0) => ({
   },
 });
 
-/* Layout */
 const HeroSection = styled(motion.section)`
   display: flex;
   justify-content: center;
