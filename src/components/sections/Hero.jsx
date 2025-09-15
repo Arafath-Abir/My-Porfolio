@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import StarCanvas from "../canvas/Stars";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 const HERO_IMG =
-  "https://res.cloudinary.com/dt94ywdob/image/upload/v1757873583/j_1_sryaoq.png";
+  "https://res.cloudinary.com/dt94ywdob/image/upload/v1757948381/j_compressed_xz8ncy.jpg";
 const COLORS = {
   neon: "rgba(0, 255, 140, 1)",
   mint: "rgba(146, 255, 210, 1)",
